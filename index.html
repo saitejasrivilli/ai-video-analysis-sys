@@ -440,14 +440,61 @@
             color: #667eea;
         }
 
-        .backend-status {
-            background: #d4edda;
-            color: #155724;
-            padding: 15px;
-            border-radius: 10px;
-            margin: 20px 0;
+        .api-status {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 12px 20px;
+            border-radius: 8px;
+            color: white;
+            font-weight: 500;
+            z-index: 10000;
+            font-size: 14px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .api-status.success {
+            background: linear-gradient(45deg, #10b981, #059669);
+        }
+
+        .api-status.error {
+            background: linear-gradient(45deg, #ef4444, #dc2626);
+        }
+
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+        }
+
+        .loading-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
             text-align: center;
-            border: 1px solid #c3e6cb;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #6366f1;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
         @media (max-width: 768px) {
@@ -554,8 +601,6 @@
                             <option value="teen_dancer">🕺 Teen Dancer</option>
                             <option value="cooking_enthusiast">👨‍🍳 Cooking Enthusiast</option>
                             <option value="fitness_lover">💪 Fitness Lover</option>
-                            <option value="comedy_fan">😂 Comedy Fan</option>
-                            <option value="tech_reviewer">🔧 Tech Reviewer</option>
                         </select>
                     </div>
 
@@ -577,24 +622,32 @@
                         <p>Performance statistics of the ML system</p>
                     </div>
                     
-                    <div class="feature-showcase">
-                        <div class="result-card">
-                            <h4><i class="fas fa-tachometer-alt"></i> Processing Speed</h4>
-                            <p><strong>Video Analysis:</strong> 15-30 seconds per video</p>
-                            <p><strong>Recommendation:</strong> < 100ms per request</p>
-                            <p><strong>Real-time inference:</strong> 50+ FPS</p>
-                        </div>
-                        <div class="result-card">
-                            <h4><i class="fas fa-memory"></i> System Resources</h4>
-                            <p><strong>Memory Usage:</strong> 2-4 GB RAM</p>
-                            <p><strong>GPU Utilization:</strong> 60-80% (when available)</p>
-                            <p><strong>Storage:</strong> 5-10 GB for models</p>
-                        </div>
-                        <div class="result-card">
-                            <h4><i class="fas fa-chart-bar"></i> Model Performance</h4>
-                            <p><strong>Object Detection:</strong> 85% mAP</p>
-                            <p><strong>Speech Recognition:</strong> 90% accuracy</p>
-                            <p><strong>Recommendation:</strong> 78% click-through rate</p>
+                    <div style="text-align: center; margin-bottom: 20px;">
+                        <button class="btn" onclick="loadPerformanceMetrics()">
+                            <i class="fas fa-sync"></i> Load Performance Metrics
+                        </button>
+                    </div>
+                    
+                    <div id="metricsContent">
+                        <div class="feature-showcase">
+                            <div class="result-card">
+                                <h4><i class="fas fa-tachometer-alt"></i> Processing Speed</h4>
+                                <p><strong>Video Analysis:</strong> 15-30 seconds per video</p>
+                                <p><strong>Recommendation:</strong> < 100ms per request</p>
+                                <p><strong>Real-time inference:</strong> 50+ FPS</p>
+                            </div>
+                            <div class="result-card">
+                                <h4><i class="fas fa-memory"></i> System Resources</h4>
+                                <p><strong>Memory Usage:</strong> 2-4 GB RAM</p>
+                                <p><strong>GPU Utilization:</strong> 60-80% (when available)</p>
+                                <p><strong>Storage:</strong> 5-10 GB for models</p>
+                            </div>
+                            <div class="result-card">
+                                <h4><i class="fas fa-chart-bar"></i> Model Performance</h4>
+                                <p><strong>Object Detection:</strong> 85% mAP</p>
+                                <p><strong>Speech Recognition:</strong> 90% accuracy</p>
+                                <p><strong>Recommendation:</strong> 78% click-through rate</p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -690,9 +743,9 @@
             <h3>TikTok AI Content Understanding System</h3>
             <p>Built with modern ML techniques and production-ready architecture</p>
             <div class="social-links">
-                <a href="https://github.com/yourusername" class="social-link"><i class="fab fa-github"></i></a>
-                <a href="https://linkedin.com/in/yourusername" class="social-link"><i class="fab fa-linkedin"></i></a>
-                <a href="mailto:your.email@example.com" class="social-link"><i class="fas fa-envelope"></i></a>
+                <a href="https://github.com/saitejasrivilli" class="social-link"><i class="fab fa-github"></i></a>
+                <a href="https://linkedin.com/in/saiteja" class="social-link"><i class="fab fa-linkedin"></i></a>
+                <a href="mailto:saiteja@example.com" class="social-link"><i class="fas fa-envelope"></i></a>
             </div>
             <p style="margin-top: 30px; opacity: 0.7;">
                 © 2024 Advanced AI Content Understanding System. Built for demonstration purposes.
@@ -701,13 +754,54 @@
     </div>
 
     <script>
-        // Configuration - UPDATE THIS WITH YOUR RAILWAY URL
-        const API_BASE_URL = 'https://your-railway-app.railway.app'; // Replace with your Railway URL
-        const DEMO_MODE = false; // Set to true to use demo data only
+        // Configuration - YOUR RAILWAY BACKEND URL
+        const API_BASE_URL = 'https://ai-video-analysis-sys-production.up.railway.app';
         
         // Global variables
         let currentVideo = null;
         let analysisResults = null;
+
+        // Status message functions
+        function showStatusMessage(message, type = 'info') {
+            // Remove existing status messages
+            const existing = document.querySelector('.status-message');
+            if (existing) existing.remove();
+            
+            const statusDiv = document.createElement('div');
+            statusDiv.className = `status-message status-${type}`;
+            statusDiv.textContent = message;
+            
+            // Insert after the demo tabs
+            const demoSection = document.querySelector('.live-demo-section');
+            demoSection.insertBefore(statusDiv, demoSection.children[1]);
+            
+            // Auto remove after 5 seconds
+            setTimeout(() => {
+                if (statusDiv.parentNode) {
+                    statusDiv.remove();
+                }
+            }, 5000);
+        }
+
+        function showLoading(message = 'Processing...') {
+            const loadingDiv = document.createElement('div');
+            loadingDiv.id = 'loading';
+            loadingDiv.className = 'loading-overlay';
+            loadingDiv.innerHTML = `
+                <div class="loading-content">
+                    <div class="spinner"></div>
+                    <p>${message}</p>
+                </div>
+            `;
+            document.body.appendChild(loadingDiv);
+        }
+
+        function hideLoading() {
+            const loadingDiv = document.getElementById('loading');
+            if (loadingDiv) {
+                loadingDiv.remove();
+            }
+        }
 
         // API Helper Functions
         async function callAPI(endpoint, method = 'GET', data = null) {
@@ -737,25 +831,8 @@
                 return await response.json();
             } catch (error) {
                 console.error('API call failed:', error);
-                // Fallback to demo mode on API failure
-                return await fallbackToDemo(endpoint, data);
+                throw error;
             }
-        }
-
-        async function fallbackToDemo(endpoint, data) {
-            console.log('Falling back to demo mode for:', endpoint);
-            
-            if (endpoint.includes('analyze-video')) {
-                return await generateDemoResults();
-            } else if (endpoint.includes('recommendations')) {
-                const profile = data?.get('user_profile') || 'teen_dancer';
-                return {
-                    status: 'success',
-                    recommendations: await generateDemoRecommendations(profile)
-                };
-            }
-            
-            return { status: 'error', message: 'API unavailable' };
         }
 
         // Tab switching
@@ -823,16 +900,16 @@
                 return;
             }
 
-            showStatusMessage('Analyzing video with AI models... This may take a moment.', 'info');
-            
-            const progressContainer = document.querySelector('.progress-container');
-            const progressBar = document.getElementById('analysisProgress');
-            const progressText = document.getElementById('progressText');
-            
-            progressContainer.style.display = 'block';
-            document.getElementById('analyzeBtn').disabled = true;
-            
             try {
+                showLoading('Analyzing video with AI models... This may take a moment.');
+                
+                const progressContainer = document.querySelector('.progress-container');
+                const progressBar = document.getElementById('analysisProgress');
+                const progressText = document.getElementById('progressText');
+                
+                progressContainer.style.display = 'block';
+                document.getElementById('analyzeBtn').disabled = true;
+                
                 // Prepare form data
                 const formData = new FormData();
                 formData.append('file', currentVideo);
@@ -850,7 +927,7 @@
                 
                 const progressInterval = setInterval(() => {
                     progress += Math.random() * 15;
-                    if (progress > 95) progress = 95; // Don't complete until API responds
+                    if (progress > 95) progress = 95;
                     
                     progressBar.style.width = progress + '%';
                     progressText.textContent = stages[Math.floor(progress / 16)] || 'Finalizing results...';
@@ -864,103 +941,273 @@
                 progressBar.style.width = '100%';
                 progressText.textContent = 'Analysis complete!';
                 
+                hideLoading();
+                
                 if (result.status === 'success') {
-                    displayRealAnalysisResults(result);
+                    displayAnalysisResults(result);
                     showStatusMessage('✅ Video analysis completed successfully!', 'success');
                 } else {
                     throw new Error(result.message || 'Analysis failed');
                 }
                 
             } catch (error) {
+                hideLoading();
                 console.error('Analysis error:', error);
-                showStatusMessage('Analysis failed. Showing demo results instead.', 'error');
+                showStatusMessage(`Analysis failed: ${error.message}`, 'error');
                 
                 // Show demo results as fallback
                 setTimeout(() => {
                     showDemoResults();
                 }, 1000);
             } finally {
-                progressContainer.style.display = 'none';
+                document.querySelector('.progress-container').style.display = 'none';
                 document.getElementById('analyzeBtn').disabled = false;
             }
         }
 
-        // Display real analysis results
-        function displayRealAnalysisResults(results) {
+        // Display analysis results
+        function displayAnalysisResults(results) {
             const visual = results.visual_analysis || {};
             const audio = results.audio_analysis || {};
+            const insights = results.content_insights || {};
             
             const content = document.getElementById('analysisContent');
             content.innerHTML = `
                 <div class="result-card">
                     <h4><i class="fas fa-info-circle"></i> Video Metadata</h4>
                     <p><strong>Filename:</strong> ${results.filename || 'N/A'}</p>
+                    <p><strong>File Size:</strong> ${results.file_size_mb || 'N/A'} MB</p>
                     <p><strong>Duration:</strong> ${visual.duration?.toFixed(1) || 'N/A'}s</p>
-                    <p><strong>Resolution:</strong> ${visual.resolution ? `${visual.resolution.width}x${visual.resolution.height}` : 'N/A'}</p>
+                    <p><strong>Resolution:</strong> ${visual.resolution || 'N/A'}</p>
                     <p><strong>FPS:</strong> ${visual.fps || 'N/A'}</p>
-                    <p><strong>Analysis Type:</strong> <span class="score-badge">${results.analysis_type === 'real_ml' ? 'Real ML' : 'Enhanced Demo'}</span></p>
+                    <p><strong>Processing Time:</strong> ${results.processing_time_ms ? (results.processing_time_ms/1000).toFixed(1) + 's' : 'N/A'}</p>
                 </div>
                 
                 <div class="result-card">
                     <h4><i class="fas fa-eye"></i> Computer Vision Analysis</h4>
                     <p><strong>Objects Detected:</strong> ${visual.top_objects ? visual.top_objects.slice(0, 5).join(', ') : 'N/A'}</p>
-                    <p><strong>Total Objects:</strong> ${visual.detected_objects ? Object.keys(visual.detected_objects).length : 'N/A'}</p>
-                    <p><strong>Scene Classification:</strong> ${visual.scene_classifications ? visual.scene_classifications[0]?.label : 'N/A'}</p>
-                    <p><strong>Brightness:</strong> ${visual.visual_properties?.average_brightness?.toFixed(1) || 'N/A'}</p>
-                    <p><strong>Contrast:</strong> ${visual.visual_properties?.average_contrast?.toFixed(1) || 'N/A'}</p>
+                    <p><strong>Person Count:</strong> ${visual.detected_objects?.person || 'N/A'}</p>
+                    <p><strong>Face Count:</strong> ${visual.detected_objects?.face || 'N/A'}</p>
+                    <p><strong>Scene Type:</strong> ${visual.scene_classifications?.[0]?.label || 'N/A'} (${visual.scene_classifications?.[0]?.score ? (visual.scene_classifications[0].score * 100).toFixed(1) + '%' : 'N/A'})</p>
                 </div>
                 
                 <div class="result-card">
                     <h4><i class="fas fa-microphone"></i> Audio Analysis (Whisper AI)</h4>
                     <p><strong>Transcription:</strong> "${audio.transcription?.text || 'No speech detected'}"</p>
-                    <p><strong>Transcription Confidence:</strong> ${audio.transcription?.confidence ? (audio.transcription.confidence * 100).toFixed(1) + '%' : 'N/A'}</p>
+                    <p><strong>Confidence:</strong> ${audio.transcription?.confidence ? (audio.transcription.confidence * 100).toFixed(1) + '%' : 'N/A'}</p>
+                    <p><strong>Word Count:</strong> ${audio.transcription?.word_count || 0}</p>
+                    <p><strong>Language:</strong> ${audio.transcription?.language || 'N/A'}</p>
                     <p><strong>Sentiment:</strong> ${audio.sentiment?.label || 'N/A'} (${audio.sentiment?.confidence ? (audio.sentiment.confidence * 100).toFixed(1) + '%' : 'N/A'})</p>
-                    <p><strong>Emotion:</strong> ${audio.emotion?.label || 'N/A'} (${audio.emotion?.confidence ? (audio.emotion.confidence * 100).toFixed(1) + '%' : 'N/A'})</p>
-                    <p><strong>Has Music:</strong> ${audio.audio_properties?.has_music ? 'Yes' : 'No'}</p>
-                    <p><strong>Audio Duration:</strong> ${audio.audio_properties?.duration?.toFixed(1) || 'N/A'}s</p>
+                    <p><strong>Emotion:</strong> ${audio.emotion?.label || 'N/A'}</p>
                 </div>
                 
                 <div class="result-card">
                     <h4><i class="fas fa-lightbulb"></i> AI Insights</h4>
-                    <p><strong>Processing Status:</strong> <span class="score-badge">${results.status.toUpperCase()}</span></p>
+                    <p><strong>Engagement Potential:</strong> ${insights.engagement_potential ? (insights.engagement_potential * 100).toFixed(1) + '%' : 'N/A'}</p>
+                    <p><strong>Target Audience:</strong> ${insights.target_audience || 'N/A'}</p>
+                    <p><strong>Trending Topics:</strong> ${insights.trending_topics ? insights.trending_topics.join(', ') : 'N/A'}</p>
+                    <p><strong>Optimal Posting:</strong> ${insights.optimal_posting_time || 'N/A'}</p>
                     <p><strong>Analysis Timestamp:</strong> ${new Date(results.timestamp).toLocaleString()}</p>
-                    <p><strong>Word Count:</strong> ${audio.transcription?.word_count || 0}</p>
-                    <p><strong>Total Frames Analyzed:</strong> ${visual.total_frames || 'N/A'}</p>
                 </div>
             `;
             
             document.getElementById('analysisResults').style.display = 'block';
         }
 
-        // Real recommendations with backend
+        // Show demo results
+        function showDemoResults() {
+            const demoResults = {
+                status: "success",
+                filename: "demo_video.mp4",
+                file_size_mb: 15.2,
+                processing_time_ms: 18500,
+                visual_analysis: {
+                    duration: 25.5,
+                    fps: 30,
+                    resolution: "1080p",
+                    detected_objects: {
+                        person: 42,
+                        face: 18,
+                        hand: 12,
+                        phone: 3
+                    },
+                    top_objects: ["person", "face", "hand", "mobile phone"],
+                    scene_classifications: [
+                        {"label": "indoor", "score": 0.89},
+                        {"label": "portrait", "score": 0.76},
+                        {"label": "social_media", "score": 0.91}
+                    ]
+                },
+                audio_analysis: {
+                    transcription: {
+                        text: "Hey everyone! Welcome back to my channel. Today I'm sharing something exciting!",
+                        confidence: 0.91,
+                        word_count: 12,
+                        language: "en"
+                    },
+                    sentiment: {
+                        label: "POSITIVE",
+                        confidence: 0.94
+                    },
+                    emotion: {
+                        label: "excitement",
+                        confidence: 0.87
+                    }
+                },
+                content_insights: {
+                    engagement_potential: 0.89,
+                    trending_topics: ["lifestyle", "tutorial", "entertainment"],
+                    target_audience: "18-25",
+                    optimal_posting_time: "7-9 PM"
+                },
+                timestamp: new Date().toISOString()
+            };
+            
+            displayAnalysisResults(demoResults);
+            showStatusMessage('📊 Demo results displayed - showing what real analysis looks like!', 'info');
+        }
+
+        // Generate recommendations
         async function generateRecommendations() {
             const profile = document.getElementById('userProfile').value;
-            showStatusMessage('Generating personalized recommendations with ML models...', 'info');
             
             try {
+                showLoading('Generating personalized recommendations...');
+                
                 const formData = new FormData();
                 formData.append('user_profile', profile);
-                formData.append('num_recommendations', '8');
+                formData.append('num_recommendations', '6');
                 
                 const result = await callAPI('/recommendations', 'POST', formData);
                 
+                hideLoading();
+                
                 if (result.status === 'success') {
-                    displayRealRecommendations(result.recommendations, profile);
+                    displayRecommendations(result.recommendations, profile);
                     showStatusMessage('✅ Recommendations generated successfully!', 'success');
                 } else {
                     throw new Error(result.message || 'Recommendations failed');
                 }
                 
             } catch (error) {
+                hideLoading();
                 console.error('Recommendations error:', error);
-                showStatusMessage('Using demo recommendations as fallback.', 'error');
-                
-                // Fallback to demo
-                const demoRecs = await generateDemoRecommendations(profile);
-                displayDemoRecommendations(demoRecs);
+                showStatusMessage(`Failed to generate recommendations: ${error.message}`, 'error');
             }
         }
 
-        // Display real recommendations
-        function displayRealRecommendations(recommendations, profile) {
-            const content = doc
+        // Display recommendations
+        function displayRecommendations(recommendations, profile) {
+            const content = document.getElementById('recommendationContent');
+            
+            let html = `<p><strong>Recommendations for:</strong> ${profile.replace('_', ' ').toUpperCase()}</p>`;
+            html += '<div class="recommendation-grid">';
+            
+            recommendations.forEach(rec => {
+                html += `
+                    <div class="recommendation-card">
+                        <div class="score-badge">${rec.score || '95'}%</div>
+                        <h4>${rec.title}</h4>
+                        <p><strong>Category:</strong> ${rec.category}</p>
+                        <p><strong>Views:</strong> ${rec.views}</p>
+                        <p><strong>Engagement:</strong> ${rec.engagement || 'N/A'}</p>
+                        <p><strong>Reason:</strong> ${rec.reason || `Perfect for ${profile} interests`}</p>
+                    </div>
+                `;
+            });
+            
+            html += '</div>';
+            content.innerHTML = html;
+            document.getElementById('recommendationResults').style.display = 'block';
+        }
+
+        // Load performance metrics
+        async function loadPerformanceMetrics() {
+            try {
+                showLoading('Loading performance metrics...');
+                
+                const result = await callAPI('/performance-metrics');
+                
+                hideLoading();
+                
+                if (result.status === 'success') {
+                    displayPerformanceMetrics(result);
+                    showStatusMessage('✅ Performance metrics loaded!', 'success');
+                } else {
+                    throw new Error(result.message || 'Failed to load metrics');
+                }
+                
+            } catch (error) {
+                hideLoading();
+                console.error('Metrics error:', error);
+                showStatusMessage(`Failed to load metrics: ${error.message}`, 'error');
+            }
+        }
+
+        // Display performance metrics
+        function displayPerformanceMetrics(metrics) {
+            const content = document.getElementById('metricsContent');
+            const system = metrics.system_metrics || {};
+            const ml = metrics.ml_metrics || {};
+            const api = metrics.api_health || {};
+            
+            content.innerHTML = `
+                <div class="feature-showcase">
+                    <div class="result-card">
+                        <h4><i class="fas fa-tachometer-alt"></i> System Performance</h4>
+                        <p><strong>CPU Usage:</strong> ${system.cpu_usage || 'N/A'}</p>
+                        <p><strong>Memory Usage:</strong> ${system.memory_usage || 'N/A'}</p>
+                        <p><strong>Uptime:</strong> ${system.uptime || 'N/A'}</p>
+                        <p><strong>Response Time:</strong> ${system.response_time_avg || 'N/A'}</p>
+                    </div>
+                    <div class="result-card">
+                        <h4><i class="fas fa-brain"></i> ML Performance</h4>
+                        <p><strong>Video Analysis:</strong> ${ml.video_analysis_time || 'N/A'}</p>
+                        <p><strong>Recommendations:</strong> ${ml.recommendation_time || 'N/A'}</p>
+                        <p><strong>Object Detection:</strong> ${ml.model_accuracy?.object_detection || 'N/A'}</p>
+                        <p><strong>Speech Recognition:</strong> ${ml.model_accuracy?.speech_recognition || 'N/A'}</p>
+                    </div>
+                    <div class="result-card">
+                        <h4><i class="fas fa-link"></i> API Health</h4>
+                        <p><strong>OpenAI API:</strong> ${api.openai_api || 'Unknown'}</p>
+                        <p><strong>HuggingFace API:</strong> ${api.huggingface_api || 'Unknown'}</p>
+                        <p><strong>Database:</strong> ${api.database || 'Unknown'}</p>
+                        <p><strong>Environment:</strong> ${metrics.environment || 'Unknown'}</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Test API connection on page load
+        async function testAPIConnection() {
+            try {
+                const health = await callAPI('/health');
+                console.log('✅ API Connected:', health);
+                
+                const statusDiv = document.createElement('div');
+                statusDiv.className = 'api-status success';
+                statusDiv.innerHTML = '✅ API Connected';
+                document.body.appendChild(statusDiv);
+                
+                setTimeout(() => statusDiv.remove(), 3000);
+                
+            } catch (error) {
+                console.error('❌ API Connection Failed:', error);
+                
+                const statusDiv = document.createElement('div');
+                statusDiv.className = 'api-status error';
+                statusDiv.innerHTML = '❌ API Connection Failed';
+                document.body.appendChild(statusDiv);
+                
+                showStatusMessage('API connection failed. Demo mode available.', 'error');
+            }
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('🚀 Initializing Video Analysis App');
+            testAPIConnection();
+        });
+    </script>
+</body>
+</html>
