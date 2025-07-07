@@ -63,10 +63,12 @@ app = FastAPI(
 if ENVIRONMENT == "production":
     app.add_middleware(TrustedHostMiddleware, allowed_hosts=["*"])
 
-# CORS Configuration - Update with your actual Vercel URL after deployment
+
+# CORS Configuration - Updated with your actual Vercel URL
 allowed_origins = [
     "http://localhost:3000",  # Local development
     "https://*.vercel.app",   # All Vercel apps
+    "https://ai-video-analysis-sys.vercel.app",  # Your specific Vercel URL
 ]
 
 # Add specific Vercel URL if available
