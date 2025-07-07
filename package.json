@@ -1,0 +1,11 @@
+{
+  "name": "tiktok-ai-frontend",
+  "version": "1.0.0",
+  "description": "TikTok AI Content Understanding System - Frontend Demo",
+  "main": "index.html",
+  "scripts": {
+    "start": "python -m http.server 8080",
+    "dev": "python -m http.server 8080",
+    "build": "echo 'Static site, no build needed'",
+    "deploy": "vercel --prod"
+  },
